@@ -113,6 +113,10 @@
             font-size: 16px;
         }
 
+        .form-group label .required {
+            color: #e74c3c;
+        }
+
         .form-control {
             width: 100%;
             padding: 15px;
@@ -342,7 +346,6 @@
             padding: 3px 10px;
             border-radius: 15px;
             font-size: 12px;
-            font-weight: 600;
             margin-left: 8px;
         }
 
@@ -602,6 +605,7 @@
             }
         }
 
+        // ОСНОВНАЯ ФУНКЦИЯ СОЗДАНИЯ ТЕСТА (С СОХРАНЕНИЕМ В ОБЩИЙ ДОСТУП)
         function createTest() {
             const testTitle = document.getElementById('testTitle').value.trim();
             if (!testTitle) {
@@ -670,21 +674,21 @@
                 }
             };
 
-            // Сохраняем в общий массив и в массив преподавателя
+            // СОХРАНЯЕМ В ОБЩИЙ МАССИВ (ДЛЯ СТУДЕНТОВ - ОСНОВНОЕ!)
             const allTestsKey = 'teacher_tests';
-            const allTests = JSON.parse(localStorage.getItem(allTestsKey) || '[]');
+            let allTests = JSON.parse(localStorage.getItem(allTestsKey) || '[]');
             allTests.push(test);
             localStorage.setItem(allTestsKey, JSON.stringify(allTests));
-            
-            // Сохраняем в личный массив преподавателя
+
+            // СОХРАНЯЕМ В ЛИЧНЫЙ МАССИВ ПРЕПОДАВАТЕЛЯ (ДЛЯ РЕДАКТИРОВАНИЯ)
             if (currentUser) {
                 const userTestsKey = `teacher_tests_${currentUser.id}`;
-                const userTests = JSON.parse(localStorage.getItem(userTestsKey) || '[]');
+                let userTests = JSON.parse(localStorage.getItem(userTestsKey) || '[]');
                 userTests.push(test);
                 localStorage.setItem(userTestsKey, JSON.stringify(userTests));
             }
 
-            alert(`Тест "${testTitle}" создан!`);
+            alert(`Тест "${testTitle}" успешно создан! Теперь студенты могут его пройти по ссылке.`);
             window.location.href = `test.html?id=${test.id}`;
         }
 
@@ -789,7 +793,7 @@
             const testIndex = tests.findIndex(t => t.id === editingTestId);
             
             if (testIndex !== -1) {
-                tests[testIndex] = {
+                const updatedTest = {
                     ...tests[testIndex],
                     title: testTitle,
                     description: document.getElementById('testDescription').value.trim(),
@@ -801,13 +805,15 @@
                         maxPoints: questions.reduce((sum, q) => sum + q.points, 0)
                     }
                 };
+                
+                tests[testIndex] = updatedTest;
                 localStorage.setItem(testsKey, JSON.stringify(tests));
                 
-                // Обновляем также в общем массиве
+                // ОБНОВЛЯЕМ ТАКЖЕ В ОБЩЕМ МАССИВЕ
                 const allTests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
                 const allIndex = allTests.findIndex(t => t.id === editingTestId);
                 if (allIndex !== -1) {
-                    allTests[allIndex] = tests[testIndex];
+                    allTests[allIndex] = updatedTest;
                     localStorage.setItem('teacher_tests', JSON.stringify(allTests));
                 }
                 
