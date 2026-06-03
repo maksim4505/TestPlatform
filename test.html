@@ -202,6 +202,16 @@
             background-color: #45a049;
         }
 
+        .btn-warning {
+            background-color: #ff9800;
+            color: white;
+            border: 2px solid #ff9800;
+        }
+
+        .btn-warning:hover {
+            background-color: #f57c00;
+        }
+
         .test-stats {
             background-color: white;
             border-radius: 16px;
@@ -502,7 +512,7 @@
             const statusText = test.status === 'published' ? 'Опубликован' : 'Черновик';
             const statusClass = test.status === 'published' ? 'published' : '';
             
-            // ИСПРАВЛЕНО: добавлен /TestPlatform/ в путь
+            // Правильная ссылка с /TestPlatform/
             const baseUrl = window.location.origin;
             const testLink = `${baseUrl}/TestPlatform/take-test.html?id=${test.id}`;
             
@@ -539,6 +549,11 @@
                         <a href="create-test.html?edit=${test.id}" class="btn btn-outline" id="editTestBtn">
                             <i class="fas fa-edit"></i> Редактировать
                         </a>
+                        ${test.status !== 'published' ? `
+                        <button class="btn btn-success" id="publishBtn">
+                            <i class="fas fa-globe"></i> Опубликовать
+                        </button>
+                        ` : ''}
                         <button class="btn btn-outline" id="deleteTestBtn">
                             <i class="fas fa-trash"></i> Удалить
                         </button>
@@ -597,6 +612,28 @@
             document.getElementById('copyLinkBtn2')?.addEventListener('click', () => copyLink(testLink));
             document.getElementById('deleteTestBtn')?.addEventListener('click', () => deleteTest(test.id));
             document.getElementById('downloadQrBtn')?.addEventListener('click', () => downloadQRCode());
+            
+            // Кнопка "Опубликовать"
+            document.getElementById('publishBtn')?.addEventListener('click', () => {
+                const testsKey = getUserTestsKey();
+                const tests = JSON.parse(localStorage.getItem(testsKey) || '[]');
+                const testIndex = tests.findIndex(t => t.id === currentTest.id);
+                if (testIndex !== -1) {
+                    tests[testIndex].status = 'published';
+                    localStorage.setItem(testsKey, JSON.stringify(tests));
+                    
+                    // Обновляем и в общем массиве
+                    const allTests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
+                    const allIndex = allTests.findIndex(t => t.id === currentTest.id);
+                    if (allIndex !== -1) {
+                        allTests[allIndex].status = 'published';
+                        localStorage.setItem('teacher_tests', JSON.stringify(allTests));
+                    }
+                    
+                    alert('✅ Тест опубликован! Теперь студенты могут его проходить.');
+                    location.reload();
+                }
+            });
         }
         
         function generateQRCode(url) {
@@ -647,6 +684,12 @@
             const tests = JSON.parse(localStorage.getItem(testsKey) || '[]');
             const updated = tests.filter(t => t.id !== id);
             localStorage.setItem(testsKey, JSON.stringify(updated));
+            
+            // Удаляем также из общего массива
+            const allTests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
+            const allUpdated = allTests.filter(t => t.id !== id);
+            localStorage.setItem('teacher_tests', JSON.stringify(allUpdated));
+            
             alert('Тест удален');
             window.location.href = 'dashboard.html';
         }
