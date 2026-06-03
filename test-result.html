@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Прохождение теста - TestPlatform</title>
+    <title>Результаты теста - TestPlatform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -15,28 +15,23 @@
 
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            line-height: 1.6;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255,255,255,0.95);
             padding: 20px 0;
-            backdrop-filter: blur(10px);
         }
 
         .header-content {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
         }
 
         .logo h1 {
@@ -44,285 +39,105 @@
             color: #2d3e50;
         }
 
-        .logo span {
-            color: #4a6ee0;
+        .logo span { color: #4a6ee0; }
+
+        .result-card {
+            background: white;
+            border-radius: 32px;
+            padding: 50px 40px;
+            margin: 60px 0;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
         }
 
-        .back-link {
-            color: #4a6ee0;
-            text-decoration: none;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-link:hover {
-            color: #3a5bc7;
-        }
-
-        .test-take {
-            padding: 40px 0;
-        }
-
-        .test-card {
-            background-color: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        .result-icon {
+            font-size: 80px;
             margin-bottom: 30px;
-            animation: fadeIn 0.6s;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .result-icon.success { color: #4CAF50; }
+        .result-icon.warning { color: #ffc107; }
+        .result-icon.danger { color: #e74c3c; }
 
-        .test-header {
-            margin-bottom: 30px;
-            padding-bottom: 30px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .test-header h1 {
-            font-size: 36px;
+        .greeting {
+            font-size: 32px;
+            font-weight: 700;
             color: #2d3e50;
             margin-bottom: 15px;
-            font-weight: 700;
         }
 
-        .test-description {
-            color: #666;
-            font-size: 18px;
-            margin-bottom: 25px;
-            font-style: italic;
-        }
-
-        .test-meta {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+        .student-name {
+            font-size: 24px;
+            color: #4a6ee0;
+            font-weight: 600;
             margin-bottom: 30px;
         }
 
-        .meta-item {
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #e6e9ff;
+        .score-percent {
+            font-size: 72px;
+            font-weight: 700;
+            color: #2d3e50;
+            margin: 30px 0;
         }
 
-        .meta-label {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .meta-value {
+        .score-message {
             font-size: 28px;
             font-weight: 700;
-            color: #2d3e50;
-        }
-
-        .time-warning {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-left: 4px solid #ffc107;
-            padding: 15px 20px;
-            border-radius: 10px;
-            color: #856404;
-            margin-top: 20px;
-        }
-
-        .student-form {
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            border-radius: 16px;
-            padding: 30px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
             margin-bottom: 30px;
-            border: 2px solid #e6e9ff;
         }
 
-        .student-form h3 {
-            font-size: 24px;
-            color: #2d3e50;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .score-message.excellent { background: #4CAF50; color: white; }
+        .score-message.good { background: #2196F3; color: white; }
+        .score-message.average { background: #ff9800; color: white; }
+        .score-message.poor { background: #e74c3c; color: white; }
 
-        .student-form h3 i {
-            color: #4a6ee0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2d3e50;
-            font-size: 16px;
-        }
-
-        .form-group label .required {
-            color: #e74c3c;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
-            background-color: white;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #4a6ee0;
-            box-shadow: 0 0 0 3px rgba(74, 110, 224, 0.1);
-        }
-
-        .form-help {
-            margin-top: 8px;
-            color: #666;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .form-help i {
-            color: #4a6ee0;
-        }
-
-        .info-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 16px;
+        .score-details {
+            background: #f8f9ff;
+            border-radius: 20px;
             padding: 30px;
-            color: white;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            margin: 30px 0;
         }
 
-        .info-section h3 {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .score-stats {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            justify-content: space-around;
         }
 
-        .info-list {
-            list-style: none;
-        }
-
-        .info-list li {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3e50;
         }
 
         .btn {
-            padding: 15px 30px;
+            display: inline-block;
+            padding: 15px 40px;
+            background: #4a6ee0;
+            color: white;
+            text-decoration: none;
             border-radius: 12px;
             font-weight: 600;
-            cursor: pointer;
+            margin-top: 20px;
             transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            border: none;
-            font-size: 18px;
-            text-align: center;
         }
 
-        .btn-start {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-            width: 100%;
-            padding: 20px;
-            font-size: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
-        }
-
-        .btn-start:hover {
+        .btn:hover {
+            background: #3a5bc7;
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.4);
         }
 
         footer {
-            background-color: #2d3e50;
+            background: #2d3e50;
             color: white;
-            padding: 30px 0 20px;
-            margin-top: 60px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-            margin-bottom: 20px;
-        }
-
-        .footer-column h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column ul li a {
-            color: #b0b7c3;
-            text-decoration: none;
-        }
-
-        .copyright {
+            padding: 30px 0;
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #3a4a5f;
-            color: #b0b7c3;
-            font-size: 14px;
         }
 
         .free-badge {
-            display: inline-block;
-            background-color: #4CAF50;
+            background: #4CAF50;
             color: white;
             padding: 3px 10px;
             border-radius: 15px;
@@ -330,44 +145,11 @@
             margin-left: 8px;
         }
 
-        .loading {
-            text-align: center;
-            padding: 60px;
-            color: white;
-        }
-
-        .loading i {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: spin 1s infinite linear;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .test-card {
-                padding: 25px;
-            }
-            .test-header h1 {
-                font-size: 28px;
-            }
-            .test-meta {
-                grid-template-columns: 1fr;
-            }
-            .student-form {
-                padding: 20px;
-            }
-            .btn-start {
-                padding: 15px;
-                font-size: 18px;
-            }
+            .result-card { padding: 30px 20px; }
+            .greeting { font-size: 28px; }
+            .score-percent { font-size: 48px; }
+            .score-message { font-size: 22px; }
         }
     </style>
 </head>
@@ -378,244 +160,78 @@
                 <div class="logo">
                     <h1>Test<span>Platform</span> <span class="free-badge">БЕСПЛАТНО</span></h1>
                 </div>
-                <a href="#" class="back-link" onclick="goBack()">
-                    <i class="fas fa-arrow-left"></i> Назад
-                </a>
             </div>
         </div>
     </header>
 
-    <main class="test-take">
+    <main>
         <div class="container">
-            <div id="loadingSpinner" class="loading">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Загрузка теста...</p>
-            </div>
-            <div id="testContent"></div>
+            <div class="result-card" id="resultCard"></div>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>TestPlatform</h3>
-                    <p>Современная платформа для онлайн-тестирования.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Информация</h3>
-                    <ul>
-                        <li><a href="#">О платформе</a></li>
-                        <li><a href="#">Как это работает</a></li>
-                        <li><a href="#">Контакты</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Поддержка</h3>
-                    <ul>
-                        <li><a href="mailto:support@testplatform.ru">support@testplatform.ru</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 TestPlatform. Все права защищены.</p>
-            </div>
+            <p>&copy; 2023 TestPlatform. Бесплатная платформа для онлайн-тестирования.</p>
         </div>
     </footer>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const testId = urlParams.get('id');
+        const score = parseInt(urlParams.get('score') || '0');
+        const correct = parseInt(urlParams.get('correct') || '0');
+        const total = parseInt(urlParams.get('total') || '1');
+        const studentName = decodeURIComponent(urlParams.get('student') || 'Студент');
 
         document.addEventListener('DOMContentLoaded', function() {
-            if (!testId) {
-                document.getElementById('loadingSpinner').style.display = 'none';
-                document.getElementById('testContent').innerHTML = `
-                    <div class="test-card" style="text-align:center; padding:60px;">
-                        <i class="fas fa-exclamation-triangle" style="font-size:64px; color:#e74c3c;"></i>
-                        <h2 style="margin:20px 0; color:#2d3e50;">Ссылка недействительна</h2>
-                        <p style="color:#666;">Отсутствует идентификатор теста.</p>
-                        <a href="dashboard.html" class="btn btn-primary" style="margin-top:30px;">Вернуться на главную</a>
-                    </div>
-                `;
+            let iconClass = 'success';
+            let iconHtml = '<i class="fas fa-trophy"></i>';
+            let messageClass = 'excellent';
+            let messageText = 'Отлично!';
+            
+            if (score >= 80) {
+                iconClass = 'success';
+                iconHtml = '<i class="fas fa-trophy"></i>';
+                messageClass = 'excellent';
+                messageText = 'Отлично!';
+            } else if (score >= 60) {
+                iconClass = 'success';
+                iconHtml = '<i class="fas fa-smile"></i>';
+                messageClass = 'good';
+                messageText = 'Хороший результат!';
+            } else if (score >= 40) {
+                iconClass = 'warning';
+                iconHtml = '<i class="fas fa-meh"></i>';
+                messageClass = 'average';
+                messageText = 'Неплохо, но есть над чем работать';
             } else {
-                loadTest(testId);
+                iconClass = 'danger';
+                iconHtml = '<i class="fas fa-frown"></i>';
+                messageClass = 'poor';
+                messageText = 'Нужно повторить материал';
             }
-        });
-
-        // ИСПРАВЛЕННАЯ функция загрузки теста (работает для НЕЗАРЕГИСТРИРОВАННЫХ пользователей)
-        function loadTest(testId) {
-            document.getElementById('loadingSpinner').style.display = 'block';
-            document.getElementById('testContent').innerHTML = '';
             
-            setTimeout(() => {
-                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-                let test = null;
-                
-                // 1. Сначала ищем в общем хранилище (ДЛЯ СТУДЕНТОВ)
-                const allTests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
-                test = allTests.find(t => t.id === testId);
-                
-                // 2. Если не нашли и есть преподаватель - ищем в его личных тестах
-                if (!test && currentUser) {
-                    const testsKey = `teacher_tests_${currentUser.id}`;
-                    const userTests = JSON.parse(localStorage.getItem(testsKey) || '[]');
-                    test = userTests.find(t => t.id === testId);
-                }
-                
-                // 3. Если всё ещё не нашли - пробуем найти в любом месте localStorage
-                if (!test) {
-                    for (let i = 0; i < localStorage.length; i++) {
-                        const key = localStorage.key(i);
-                        if (key && (key.startsWith('teacher_tests') || key === 'teacher_tests')) {
-                            const tests = JSON.parse(localStorage.getItem(key) || '[]');
-                            const found = tests.find(t => t.id === testId);
-                            if (found) {
-                                test = found;
-                                break;
-                            }
-                        }
-                    }
-                }
-                
-                if (test) {
-                    renderTest(test);
-                } else {
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                    document.getElementById('testContent').innerHTML = `
-                        <div class="test-card" style="text-align:center; padding:60px;">
-                            <i class="fas fa-exclamation-triangle" style="font-size:64px; color:#e74c3c;"></i>
-                            <h2 style="margin:20px 0; color:#2d3e50;">Тест не найден</h2>
-                            <p style="color:#666;">Возможно, тест был удалён или ссылка неверна.</p>
-                            <p style="color:#666; margin-top:10px;">Проверьте, что тест опубликован, и попробуйте ещё раз.</p>
-                            <a href="dashboard.html" class="btn btn-primary" style="margin-top:30px;">Вернуться на главную</a>
+            document.getElementById('resultCard').innerHTML = `
+                <div class="result-icon ${iconClass}">${iconHtml}</div>
+                <h1 class="greeting">Тест завершен!</h1>
+                <div class="student-name">${escapeHtml(studentName)}, спасибо за прохождение</div>
+                <div class="score-percent">${score}%</div>
+                <div class="score-message ${messageClass}">${messageText}</div>
+                <div class="score-details">
+                    <div class="score-stats">
+                        <div>
+                            <div class="stat-value">${correct}</div>
+                            <div>правильных ответов</div>
                         </div>
-                    `;
-                }
-                document.getElementById('loadingSpinner').style.display = 'none';
-            }, 100);
-        }
-
-        function renderTest(test) {
-            const questionsCount = test.questions ? test.questions.length : 0;
-            const maxPoints = test.questions ? test.questions.reduce((sum, q) => sum + (q.points || 1), 0) : 0;
-            const timeLimit = test.timeLimit ? test.timeLimit : null;
-            
-            window.currentTestData = test;
-            
-            const template = `
-                <div class="test-card">
-                    <div class="test-header">
-                        <h1>${escapeHtml(test.title || 'Без названия')}</h1>
-                        <p class="test-description">${escapeHtml(test.description || 'Нет описания')}</p>
-                        
-                        <div class="test-meta">
-                            <div class="meta-item">
-                                <div class="meta-label">Вопросов</div>
-                                <div class="meta-value">${questionsCount}</div>
-                            </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Максимум баллов</div>
-                                <div class="meta-value">${maxPoints}</div>
-                            </div>
-                            <div class="meta-item">
-                                <div class="meta-label">Ограничение по времени</div>
-                                <div class="meta-value">${timeLimit ? timeLimit + ' минут' : '∞'}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="time-warning">
-                            <i class="fas fa-clock"></i>
-                            ${timeLimit ? `⏱️ ${timeLimit} минут на прохождение` : '⏱️ Без ограничения времени'}
+                        <div>
+                            <div class="stat-value">${total}</div>
+                            <div>всего вопросов</div>
                         </div>
                     </div>
-                    
-                    <div class="student-form">
-                        <h3>
-                            <i class="fas fa-user-graduate"></i>
-                            Информация о студенте
-                        </h3>
-                        
-                        <div class="form-group">
-                            <label for="studentName">Ваше имя <span class="required">*</span></label>
-                            <input type="text" id="studentName" class="form-control" placeholder="Иван Иванов" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="studentEmail">Email (необязательно)</label>
-                            <input type="email" id="studentEmail" class="form-control" placeholder="ivan@example.com">
-                            <div class="form-help">
-                                <i class="fas fa-info-circle"></i>
-                                Для получения результатов на почту
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="info-section">
-                        <h3>
-                            <i class="fas fa-info-circle"></i>
-                            Важная информация:
-                        </h3>
-                        <ul class="info-list">
-                            <li><i class="fas fa-user-check"></i> Регистрация не требуется</li>
-                            <li><i class="fas fa-telegram"></i> Результаты будут автоматически сохранены</li>
-                            <li><i class="fas fa-hourglass-half"></i> ${timeLimit ? `У вас будет ${timeLimit} минут на прохождение` : 'У вас нет ограничения по времени'}</li>
-                            <li><i class="fas fa-undo-alt"></i> Вы можете вернуться к предыдущим вопросам</li>
-                            <li><i class="fas fa-chart-line"></i> Результат покажется сразу после завершения</li>
-                        </ul>
-                    </div>
-                    
-                    <button class="btn btn-start" id="startTestBtn">
-                        <i class="fas fa-play-circle"></i>
-                        Начать тест
-                    </button>
                 </div>
+                <a href="dashboard.html" class="btn"><i class="fas fa-arrow-left"></i> Вернуться на главную</a>
             `;
-            
-            document.getElementById('testContent').innerHTML = template;
-            document.getElementById('startTestBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                startTest();
-            });
-        }
-
-        function startTest() {
-            const studentName = document.getElementById('studentName')?.value.trim();
-            
-            if (!studentName) {
-                alert('Пожалуйста, укажите ваше имя');
-                document.getElementById('studentName')?.focus();
-                return;
-            }
-            
-            const studentEmail = document.getElementById('studentEmail')?.value.trim();
-            const test = window.currentTestData;
-            
-            if (!test) {
-                alert('Ошибка: данные теста не найдены');
-                return;
-            }
-            
-            const testAttempt = {
-                id: Date.now().toString(),
-                testId: test.id,
-                testTitle: test.title,
-                studentName: studentName,
-                studentEmail: studentEmail,
-                startTime: new Date().toISOString(),
-                timeLimit: test.timeLimit,
-                questions: test.questions || [],
-                answers: [],
-                status: 'in_progress'
-            };
-            
-            sessionStorage.setItem('currentTestAttempt', JSON.stringify(testAttempt));
-            window.location.href = 'test-questions.html';
-        }
-
-        function goBack() {
-            window.location.href = 'dashboard.html';
-        }
+        });
         
         function escapeHtml(str) {
             if (!str) return '';
