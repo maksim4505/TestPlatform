@@ -605,7 +605,7 @@
             }
         }
 
-        // ОСНОВНАЯ ФУНКЦИЯ СОЗДАНИЯ ТЕСТА (С СОХРАНЕНИЕМ В ОБЩИЙ ДОСТУП)
+        // ОСНОВНАЯ ФУНКЦИЯ СОЗДАНИЯ ТЕСТА (СО СТАТУСОМ "published")
         function createTest() {
             const testTitle = document.getElementById('testTitle').value.trim();
             if (!testTitle) {
@@ -659,13 +659,14 @@
                 questions.push(question);
             }
 
+            // СОЗДАЁМ ТЕСТ СО СТАТУСОМ "published" (ОПУБЛИКОВАН)
             const test = {
                 id: Date.now().toString(),
                 title: testTitle,
                 description: document.getElementById('testDescription').value.trim(),
                 timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
                 questions: questions,
-                status: 'draft',
+                status: 'published',  // ← ИСПРАВЛЕНО: тесты сразу публикуются
                 createdAt: new Date().toISOString(),
                 stats: {
                     attempts: 0,
@@ -674,13 +675,13 @@
                 }
             };
 
-            // СОХРАНЯЕМ В ОБЩИЙ МАССИВ (ДЛЯ СТУДЕНТОВ - ОСНОВНОЕ!)
+            // Сохраняем в общий массив (для студентов)
             const allTestsKey = 'teacher_tests';
             let allTests = JSON.parse(localStorage.getItem(allTestsKey) || '[]');
             allTests.push(test);
             localStorage.setItem(allTestsKey, JSON.stringify(allTests));
 
-            // СОХРАНЯЕМ В ЛИЧНЫЙ МАССИВ ПРЕПОДАВАТЕЛЯ (ДЛЯ РЕДАКТИРОВАНИЯ)
+            // Сохраняем в личный массив преподавателя (для редактирования)
             if (currentUser) {
                 const userTestsKey = `teacher_tests_${currentUser.id}`;
                 let userTests = JSON.parse(localStorage.getItem(userTestsKey) || '[]');
@@ -688,7 +689,7 @@
                 localStorage.setItem(userTestsKey, JSON.stringify(userTests));
             }
 
-            alert(`Тест "${testTitle}" успешно создан! Теперь студенты могут его пройти по ссылке.`);
+            alert(`✅ Тест "${testTitle}" успешно создан и ОПУБЛИКОВАН! Теперь студенты могут его пройти по ссылке.`);
             window.location.href = `test.html?id=${test.id}`;
         }
 
@@ -800,6 +801,7 @@
                     timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
                     questions: questions,
                     updatedAt: new Date().toISOString(),
+                    status: 'published', // При редактировании тоже оставляем опубликованным
                     stats: {
                         ...tests[testIndex].stats,
                         maxPoints: questions.reduce((sum, q) => sum + q.points, 0)
@@ -809,7 +811,7 @@
                 tests[testIndex] = updatedTest;
                 localStorage.setItem(testsKey, JSON.stringify(tests));
                 
-                // ОБНОВЛЯЕМ ТАКЖЕ В ОБЩЕМ МАССИВЕ
+                // Обновляем также в общем массиве
                 const allTests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
                 const allIndex = allTests.findIndex(t => t.id === editingTestId);
                 if (allIndex !== -1) {
@@ -817,7 +819,7 @@
                     localStorage.setItem('teacher_tests', JSON.stringify(allTests));
                 }
                 
-                alert(`Тест "${testTitle}" обновлён!`);
+                alert(`✅ Тест "${testTitle}" обновлён!`);
                 window.location.href = `test.html?id=${editingTestId}`;
             }
         }
