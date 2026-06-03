@@ -26,7 +26,6 @@
             padding: 0 20px;
         }
 
-        /* Шапка */
         header {
             background-color: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
@@ -56,19 +55,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: color 0.3s;
         }
 
         .back-link:hover {
             color: #3a5bc7;
         }
 
-        /* Основной контент */
         .test-take {
             padding: 40px 0;
         }
 
-        /* Карточка теста */
         .test-card {
             background-color: white;
             border-radius: 20px;
@@ -109,7 +105,6 @@
             font-style: italic;
         }
 
-        /* Мета-информация */
         .test-meta {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -139,12 +134,6 @@
             color: #2d3e50;
         }
 
-        .meta-unit {
-            font-size: 14px;
-            color: #888;
-            margin-left: 5px;
-        }
-
         .time-warning {
             display: flex;
             align-items: center;
@@ -157,12 +146,6 @@
             margin-top: 20px;
         }
 
-        .time-warning i {
-            font-size: 24px;
-            color: #ffc107;
-        }
-
-        /* Форма ввода данных студента */
         .student-form {
             background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
             border-radius: 16px;
@@ -216,10 +199,6 @@
             box-shadow: 0 0 0 3px rgba(74, 110, 224, 0.1);
         }
 
-        .form-control::placeholder {
-            color: #aaa;
-        }
-
         .form-help {
             margin-top: 8px;
             color: #666;
@@ -233,7 +212,6 @@
             color: #4a6ee0;
         }
 
-        /* Информационный блок */
         .info-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 16px;
@@ -251,10 +229,6 @@
             gap: 10px;
         }
 
-        .info-section h3 i {
-            font-size: 28px;
-        }
-
         .info-list {
             list-style: none;
         }
@@ -268,16 +242,8 @@
             padding: 10px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            backdrop-filter: blur(5px);
         }
 
-        .info-list li i {
-            width: 24px;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        /* Кнопка начала теста */
         .btn {
             padding: 15px 30px;
             border-radius: 12px;
@@ -311,15 +277,6 @@
             box-shadow: 0 15px 30px rgba(76, 175, 80, 0.4);
         }
 
-        .btn-start:active {
-            transform: translateY(0);
-        }
-
-        .btn-start i {
-            font-size: 24px;
-        }
-
-        /* Футер */
         footer {
             background-color: #2d3e50;
             color: white;
@@ -350,18 +307,9 @@
             list-style: none;
         }
 
-        .footer-column ul li {
-            margin-bottom: 8px;
-        }
-
         .footer-column ul li a {
             color: #b0b7c3;
             text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-column ul li a:hover {
-            color: white;
         }
 
         .copyright {
@@ -379,12 +327,9 @@
             padding: 3px 10px;
             border-radius: 15px;
             font-size: 12px;
-            font-weight: 600;
             margin-left: 8px;
-            vertical-align: middle;
         }
 
-        /* Загрузка */
         .loading {
             text-align: center;
             padding: 60px;
@@ -402,42 +347,31 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Адаптивность */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 15px;
             }
-            
             .test-card {
                 padding: 25px;
             }
-            
             .test-header h1 {
                 font-size: 28px;
             }
-            
             .test-meta {
                 grid-template-columns: 1fr;
             }
-            
             .student-form {
                 padding: 20px;
             }
-            
             .btn-start {
                 padding: 15px;
                 font-size: 18px;
-            }
-            
-            .info-list li {
-                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Шапка -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -451,7 +385,6 @@
         </div>
     </header>
 
-    <!-- Основной контент -->
     <main class="test-take">
         <div class="container">
             <div id="loadingSpinner" class="loading">
@@ -462,7 +395,6 @@
         </div>
     </main>
 
-    <!-- Футер -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -482,8 +414,6 @@
                     <h3>Поддержка</h3>
                     <ul>
                         <li><a href="mailto:support@testplatform.ru">support@testplatform.ru</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Политика конфиденциальности</a></li>
                     </ul>
                 </div>
             </div>
@@ -494,14 +424,11 @@
     </footer>
 
     <script>
-        // Получаем ID теста из URL
         const urlParams = new URLSearchParams(window.location.search);
         const testId = urlParams.get('id');
 
-        // Загрузка данных теста
         document.addEventListener('DOMContentLoaded', function() {
             if (!testId) {
-                // Если ID нет, показываем сообщение об ошибке
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('testContent').innerHTML = `
                     <div class="test-card" style="text-align:center; padding:60px;">
@@ -516,37 +443,36 @@
             }
         });
 
-        // ИСПРАВЛЕННАЯ функция загрузки теста
+        // ИСПРАВЛЕННАЯ функция загрузки теста (СНАЧАЛА общее хранилище для студентов)
         function loadTest(testId) {
             document.getElementById('loadingSpinner').style.display = 'block';
             document.getElementById('testContent').innerHTML = '';
             
             setTimeout(() => {
-                // Пробуем получить текущего пользователя
                 const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-                let tests = [];
+                let test = null;
                 
-                if (currentUser) {
-                    // Если есть преподаватель - ищем в его тестах
+                // 1. Сначала ищем в ОБЩЕМ хранилище (для НЕзарегистрированных студентов)
+                const allTests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
+                test = allTests.find(t => t.id === testId);
+                
+                // 2. Если не нашли и есть преподаватель - ищем в его личных тестах
+                if (!test && currentUser) {
                     const testsKey = `teacher_tests_${currentUser.id}`;
-                    tests = JSON.parse(localStorage.getItem(testsKey) || '[]');
-                } else {
-                    // Если нет - ищем в общих тестах
-                    tests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
+                    const userTests = JSON.parse(localStorage.getItem(testsKey) || '[]');
+                    test = userTests.find(t => t.id === testId);
                 }
-                
-                const test = tests.find(t => t.id === testId);
                 
                 if (test) {
                     renderTest(test);
                 } else {
-                    // Показываем сообщение о том, что тест не найден
                     document.getElementById('loadingSpinner').style.display = 'none';
                     document.getElementById('testContent').innerHTML = `
                         <div class="test-card" style="text-align:center; padding:60px;">
                             <i class="fas fa-exclamation-triangle" style="font-size:64px; color:#e74c3c;"></i>
                             <h2 style="margin:20px 0; color:#2d3e50;">Тест не найден</h2>
                             <p style="color:#666;">Возможно, тест был удалён или ссылка неверна.</p>
+                            <p style="color:#666; margin-top:10px;">Убедитесь, что вы скопировали правильную ссылку.</p>
                             <a href="dashboard.html" class="btn btn-primary" style="margin-top:30px;">Вернуться на главную</a>
                         </div>
                     `;
@@ -555,13 +481,11 @@
             }, 100);
         }
 
-        // Отображение теста
         function renderTest(test) {
             const questionsCount = test.questions ? test.questions.length : 0;
             const maxPoints = test.questions ? test.questions.reduce((sum, q) => sum + (q.points || 1), 0) : 0;
             const timeLimit = test.timeLimit ? test.timeLimit : null;
             
-            // Сохраняем тест в глобальную переменную для доступа из startTest
             window.currentTestData = test;
             
             const template = `
@@ -599,23 +523,12 @@
                         
                         <div class="form-group">
                             <label for="studentName">Ваше имя <span class="required">*</span></label>
-                            <input 
-                                type="text" 
-                                id="studentName" 
-                                class="form-control" 
-                                placeholder="Иван Иванов"
-                                required
-                            >
+                            <input type="text" id="studentName" class="form-control" placeholder="Иван Иванов" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="studentEmail">Email (необязательно)</label>
-                            <input 
-                                type="email" 
-                                id="studentEmail" 
-                                class="form-control" 
-                                placeholder="ivan@example.com"
-                            >
+                            <input type="email" id="studentEmail" class="form-control" placeholder="ivan@example.com">
                             <div class="form-help">
                                 <i class="fas fa-info-circle"></i>
                                 Для получения результатов на почту
@@ -645,15 +558,12 @@
             `;
             
             document.getElementById('testContent').innerHTML = template;
-            
-            // Добавляем обработчик для кнопки начала теста
             document.getElementById('startTestBtn').addEventListener('click', function(e) {
                 e.preventDefault();
                 startTest();
             });
         }
 
-        // Начало теста
         function startTest() {
             const studentName = document.getElementById('studentName')?.value.trim();
             
@@ -671,7 +581,6 @@
                 return;
             }
             
-            // Создаем объект прохождения теста
             const testAttempt = {
                 id: Date.now().toString(),
                 testId: test.id,
@@ -685,19 +594,14 @@
                 status: 'in_progress'
             };
             
-            // Сохраняем в sessionStorage
             sessionStorage.setItem('currentTestAttempt', JSON.stringify(testAttempt));
-            
-            // Перенаправляем на страницу с вопросами
             window.location.href = 'test-questions.html';
         }
 
-        // Функция возврата назад
         function goBack() {
             window.location.href = 'dashboard.html';
         }
         
-        // Экранирование HTML
         function escapeHtml(str) {
             if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
