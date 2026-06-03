@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Прохождение теста - TestPlatform</title>
+    <title>Прохождение теста - вопросы</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -12,380 +12,156 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            line-height: 1.6;
             min-height: 100vh;
         }
-
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 20px;
         }
-
-        /* Шапка */
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255,255,255,0.95);
             padding: 20px 0;
-            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
-            z-index: 100;
         }
-
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .logo h1 {
             font-size: 28px;
             color: #2d3e50;
         }
-
-        .logo span {
-            color: #4a6ee0;
-        }
-
+        .logo span { color: #4a6ee0; }
         .timer {
-            background: linear-gradient(135deg, #4a6ee0 0%, #3a5bc7 100%);
+            background: #4a6ee0;
             color: white;
             padding: 10px 20px;
             border-radius: 30px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 5px 15px rgba(74, 110, 224, 0.3);
         }
-
-        .timer.warning {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Основной контент */
-        .test-container {
-            padding: 40px 0;
-        }
-
-        /* Прогресс бар */
-        .progress-bar {
-            background-color: white;
-            border-radius: 30px;
-            padding: 20px 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .progress-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .progress-badge {
-            background-color: #4a6ee0;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .student-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #666;
-        }
-
-        .student-info i {
-            color: #4a6ee0;
-        }
-
-        /* Карточка вопроса */
         .question-card {
-            background-color: white;
+            background: white;
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            margin-bottom: 30px;
+            margin: 40px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-
         .question-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid #f0f0f0;
         }
-
         .question-number {
-            font-size: 20px;
+            background: #f0f4ff;
+            padding: 8px 20px;
+            border-radius: 30px;
             font-weight: bold;
             color: #4a6ee0;
-            background-color: #f0f4ff;
-            padding: 8px 20px;
-            border-radius: 30px;
         }
-
         .question-points {
-            background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
-            color: #856404;
+            background: #ffd700;
             padding: 8px 20px;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: bold;
         }
-
         .question-text {
             font-size: 24px;
             color: #2d3e50;
             margin-bottom: 30px;
             font-weight: 600;
-            line-height: 1.5;
         }
-
-        .question-image {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .question-image img {
-            max-width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Варианты ответов */
         .answers {
             display: flex;
             flex-direction: column;
             gap: 15px;
             margin-bottom: 30px;
         }
-
         .answer-item {
             display: flex;
             align-items: center;
-            padding: 20px 25px;
+            padding: 15px 20px;
             border: 2px solid #e0e0e0;
             border-radius: 16px;
             cursor: pointer;
             transition: all 0.3s;
-            background-color: white;
         }
-
-        .answer-item:hover {
-            background-color: #f8f9ff;
-            border-color: #4a6ee0;
-            transform: translateX(5px);
-        }
-
         .answer-item.selected {
-            background: linear-gradient(135deg, #f0f4ff 0%, #e6e9ff 100%);
+            background: #f0f4ff;
             border-color: #4a6ee0;
-            box-shadow: 0 5px 15px rgba(74, 110, 224, 0.2);
         }
-
         .answer-checkbox {
-            margin-right: 20px;
             width: 24px;
             height: 24px;
+            margin-right: 20px;
             cursor: pointer;
-            accent-color: #4a6ee0;
         }
-
         .answer-text {
-            flex: 1;
             font-size: 18px;
-            color: #333;
         }
-
-        /* Навигация */
         .navigation {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-top: 30px;
             padding-top: 30px;
             border-top: 2px solid #f0f0f0;
         }
-
         .btn {
             padding: 15px 30px;
             border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
             border: none;
             font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
-
         .btn-primary {
-            background: linear-gradient(135deg, #4a6ee0 0%, #3a5bc7 100%);
+            background: #4a6ee0;
             color: white;
-            box-shadow: 0 5px 15px rgba(74, 110, 224, 0.3);
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(74, 110, 224, 0.4);
-        }
-
         .btn-outline {
-            background-color: transparent;
+            background: transparent;
             border: 2px solid #4a6ee0;
             color: #4a6ee0;
         }
-
-        .btn-outline:hover {
-            background-color: #4a6ee0;
-            color: white;
-        }
-
         .btn-danger {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            background: #e74c3c;
             color: white;
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
         }
-
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
-        }
-
-        .answered-count {
-            background-color: #f8f9fa;
-            padding: 10px 20px;
+        .progress-bar {
+            background: white;
             border-radius: 30px;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .answered-count strong {
-            color: #4a6ee0;
-            font-size: 18px;
-        }
-
-        /* Модальное окно */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background-color: white;
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.5s;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-icon {
-            font-size: 60px;
-            color: #e74c3c;
-            margin-bottom: 20px;
-        }
-
-        .modal h3 {
-            font-size: 28px;
-            color: #2d3e50;
-            margin-bottom: 15px;
-        }
-
-        .modal p {
-            color: #666;
+            padding: 15px 25px;
             margin-bottom: 30px;
-            font-size: 18px;
-        }
-
-        .modal-buttons {
             display: flex;
-            gap: 15px;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .modal .btn {
-            padding: 12px 30px;
-            font-size: 16px;
+        .free-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-left: 8px;
         }
-
-        /* Адаптивность */
+        footer {
+            background: #2d3e50;
+            color: white;
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+        }
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .progress-bar {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .question-card {
-                padding: 25px;
-            }
-            
-            .question-text {
-                font-size: 20px;
-            }
-            
-            .navigation {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
+            .question-card { padding: 25px; }
+            .question-text { font-size: 20px; }
+            .navigation { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
@@ -394,322 +170,158 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <h1>Test<span>Platform</span></h1>
+                    <h1>Test<span>Platform</span> <span class="free-badge">БЕСПЛАТНО</span></h1>
                 </div>
-                <div class="timer" id="timer">
-                    <i class="fas fa-clock"></i>
-                    <span id="timeDisplay">--:--</span>
-                </div>
+                <div class="timer" id="timer"><i class="fas fa-clock"></i> <span id="timeDisplay">--:--</span></div>
             </div>
         </div>
     </header>
 
-    <main class="test-container">
+    <main>
         <div class="container">
             <div class="progress-bar">
-                <div class="progress-info">
-                    <span class="progress-badge" id="questionProgress">Вопрос 1 из 1</span>
-                    <span class="student-info" id="studentInfo">
-                        <i class="fas fa-user"></i>
-                        <span id="studentName">2цур</span>
-                    </span>
-                </div>
-                <div class="answered-count" id="answeredCount">
-                    Отвечено: <strong id="answeredValue">0</strong> из <strong id="totalQuestions">1</strong>
-                </div>
+                <span id="questionProgress">Вопрос 1 из 1</span>
+                <span>Отвечено: <strong id="answeredCount">0</strong> из <span id="totalQuestions">1</span></span>
             </div>
-
-            <div id="questionsContainer">
-                <!-- Вопросы будут загружаться динамически -->
-            </div>
+            <div id="questionsContainer"></div>
         </div>
     </main>
 
-    <!-- Модальное окно подтверждения завершения -->
-    <div id="finishModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3>Завершить тест?</h3>
-            <p>Вы уверены, что хотите завершить тест?<br>Отвечено: <strong id="modalAnsweredCount">0</strong> из <strong id="modalTotalQuestions">1</strong></p>
-            <div class="modal-buttons">
-                <button class="btn btn-outline" onclick="closeFinishModal()">
-                    <i class="fas fa-times"></i> Отмена
-                </button>
-                <button class="btn btn-danger" onclick="confirmFinishTest()">
-                    <i class="fas fa-check-circle"></i> Завершить
-                </button>
-            </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 TestPlatform</p>
         </div>
-    </div>
+    </footer>
 
     <script>
         let currentTest = null;
-        let currentQuestionIndex = 0;
+        let currentIndex = 0;
+        let userAnswers = [];
         let timerInterval = null;
         let timeLeft = 0;
-        let userAnswers = [];
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем данные прохождения теста
             const testAttempt = JSON.parse(sessionStorage.getItem('currentTestAttempt') || '{}');
-            
             if (!testAttempt.testId) {
-                // Демо-режим
-                loadDemoTest();
-            } else {
-                currentTest = testAttempt;
-                loadTestData();
+                alert('Ошибка: данные теста не найдены');
+                window.location.href = 'dashboard.html';
+                return;
             }
-        });
-
-        function loadDemoTest() {
-            currentTest = {
-                testId: 'demo',
-                testTitle: 'Тестовый тест',
-                studentName: '2цур',
-                timeLimit: null,
-                questions: [
-                    {
-                        id: 1,
-                        text: 'цувцв',
-                        type: 'single',
-                        points: 1,
-                        answers: [
-                            { id: 1, text: 'ВВ', isCorrect: true },
-                            { id: 2, text: 'Вариант 2', isCorrect: false }
-                        ]
-                    }
-                ]
-            };
-            
-            loadTestData();
-        }
-
-        function loadTestData() {
-            // Инициализируем массив ответов
+            currentTest = testAttempt;
             userAnswers = new Array(currentTest.questions.length).fill(null);
-            
-            // Отображаем имя студента
-            document.getElementById('studentName').textContent = currentTest.studentName || 'Студент';
-            
-            // Общее количество вопросов
             document.getElementById('totalQuestions').textContent = currentTest.questions.length;
-            document.getElementById('modalTotalQuestions').textContent = currentTest.questions.length;
-            
-            // Загружаем первый вопрос
             loadQuestion(0);
             
-            // Запускаем таймер
             if (currentTest.timeLimit) {
                 timeLeft = currentTest.timeLimit * 60;
                 startTimer();
             } else {
                 document.getElementById('timer').style.display = 'none';
             }
-        }
+        });
 
         function loadQuestion(index) {
-            if (!currentTest.questions || index >= currentTest.questions.length) {
-                return;
-            }
-            
-            currentQuestionIndex = index;
-            const question = currentTest.questions[index];
-            
-            // Обновляем прогресс
-            document.getElementById('questionProgress').textContent = 
-                `Вопрос ${index + 1} из ${currentTest.questions.length}`;
-            
-            // Обновляем счетчик отвеченных вопросов
+            currentIndex = index;
+            const q = currentTest.questions[index];
+            document.getElementById('questionProgress').textContent = `Вопрос ${index+1} из ${currentTest.questions.length}`;
             updateAnsweredCount();
             
-            // Создаем HTML для вопроса
-            let html = `
-                <div class="question-card">
-                    <div class="question-header">
-                        <span class="question-number">Вопрос ${index + 1} из ${currentTest.questions.length}</span>
-                        <span class="question-points">${question.points || 1} балл</span>
-                    </div>
-                    <div class="question-text">${question.text || 'Текст вопроса'}</div>
-                    <div class="answers" id="answersContainer">
-            `;
-            
-            if (question.type !== 'text' && question.answers) {
-                question.answers.forEach((answer, i) => {
+            let answersHtml = '';
+            if (q.type !== 'text' && q.answers) {
+                q.answers.forEach((answer, i) => {
                     const isChecked = userAnswers[index] === i;
-                    html += `
-                        <label class="answer-item ${isChecked ? 'selected' : ''}">
-                            <input type="${question.type === 'single' ? 'radio' : 'checkbox'}" 
-                                   name="question${index}" 
-                                   value="${i}"
-                                   class="answer-checkbox"
-                                   ${isChecked ? 'checked' : ''}
-                                   onchange="saveAnswer(${index}, ${i}, this.checked)">
-                            <span class="answer-text">${answer.text || `Вариант ${i + 1}`}</span>
+                    answersHtml += `
+                        <label class="answer-item ${isChecked ? 'selected' : ''}" onclick="selectAnswer(${index}, ${i})">
+                            <input type="radio" name="question" class="answer-checkbox" ${isChecked ? 'checked' : ''}>
+                            <span class="answer-text">${escapeHtml(answer.text)}</span>
                         </label>
                     `;
                 });
             }
             
-            html += `</div>`;
+            let navHtml = `
+                <div class="navigation">
+                    ${index > 0 ? '<button class="btn btn-outline" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Назад</button>' : '<div></div>'}
+                    <button class="btn btn-primary" onclick="nextQuestion()">Далее <i class="fas fa-arrow-right"></i></button>
+                </div>
+            `;
             
-            // Навигация
-            html += `<div class="navigation">`;
-            
-            if (index > 0) {
-                html += `<button class="btn btn-outline" onclick="previousQuestion()">
-                            <i class="fas fa-arrow-left"></i> Назад
-                        </button>`;
-            } else {
-                html += `<div></div>`;
+            if (index === currentTest.questions.length - 1) {
+                navHtml = `
+                    <div class="navigation">
+                        ${index > 0 ? '<button class="btn btn-outline" onclick="prevQuestion()">Назад</button>' : '<div></div>'}
+                        <button class="btn btn-danger" onclick="finishTest()"><i class="fas fa-check-circle"></i> Завершить тест</button>
+                    </div>
+                `;
             }
             
-            html += `<div class="answered-count">
-                        Отвечено: <strong>${getAnsweredCount()}</strong> из <strong>${currentTest.questions.length}</strong>
-                     </div>`;
-            
-            if (index < currentTest.questions.length - 1) {
-                html += `<button class="btn btn-primary" onclick="nextQuestion()">
-                            Далее <i class="fas fa-arrow-right"></i>
-                        </button>`;
-            } else {
-                html += `<button class="btn btn-danger" onclick="showFinishModal()">
-                            <i class="fas fa-check-circle"></i> Завершить тест
-                        </button>`;
-            }
-            
-            html += `</div></div>`;
-            
-            document.getElementById('questionsContainer').innerHTML = html;
+            document.getElementById('questionsContainer').innerHTML = `
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Вопрос ${index+1}</span>
+                        <span class="question-points">${q.points || 1} балл</span>
+                    </div>
+                    <div class="question-text">${escapeHtml(q.text)}</div>
+                    <div class="answers">${answersHtml}</div>
+                    ${navHtml}
+                </div>
+            `;
         }
-
-        function saveAnswer(questionIndex, answerIndex, isChecked) {
-            if (currentTest.questions[questionIndex].type === 'single') {
-                // Для radio - сохраняем один ответ
-                if (isChecked) {
-                    userAnswers[questionIndex] = answerIndex;
-                } else {
-                    userAnswers[questionIndex] = null;
-                }
-            } else {
-                // Для checkbox - сохраняем массив ответов
-                if (!userAnswers[questionIndex]) {
-                    userAnswers[questionIndex] = [];
-                }
-                
-                if (isChecked) {
-                    userAnswers[questionIndex].push(answerIndex);
-                } else {
-                    userAnswers[questionIndex] = userAnswers[questionIndex].filter(a => a !== answerIndex);
-                }
-            }
-            
+        
+        function selectAnswer(questionIndex, answerIndex) {
+            userAnswers[questionIndex] = answerIndex;
             updateAnsweredCount();
-        }
-
-        function getAnsweredCount() {
-            return userAnswers.filter(a => {
-                if (Array.isArray(a)) {
-                    return a.length > 0;
+            const items = document.querySelectorAll('.answer-item');
+            items.forEach((item, i) => {
+                if (i === answerIndex) {
+                    item.classList.add('selected');
+                    item.querySelector('.answer-checkbox').checked = true;
+                } else {
+                    item.classList.remove('selected');
+                    item.querySelector('.answer-checkbox').checked = false;
                 }
-                return a !== null && a !== undefined;
-            }).length;
+            });
         }
-
+        
         function updateAnsweredCount() {
-            const answered = getAnsweredCount();
-            document.getElementById('answeredValue').textContent = answered;
-            document.getElementById('modalAnsweredCount').textContent = answered;
+            const answered = userAnswers.filter(a => a !== null).length;
+            document.getElementById('answeredCount').textContent = answered;
         }
-
+        
         function nextQuestion() {
-            if (currentQuestionIndex < currentTest.questions.length - 1) {
-                loadQuestion(currentQuestionIndex + 1);
+            if (currentIndex < currentTest.questions.length - 1) {
+                loadQuestion(currentIndex + 1);
             }
         }
-
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                loadQuestion(currentQuestionIndex - 1);
+        
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                loadQuestion(currentIndex - 1);
             }
         }
-
-        function showFinishModal() {
-            const modal = document.getElementById('finishModal');
-            modal.classList.add('active');
-        }
-
-        function closeFinishModal() {
-            const modal = document.getElementById('finishModal');
-            modal.classList.remove('active');
-        }
-
-        function confirmFinishTest() {
-            // Останавливаем таймер
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
+        
+        function finishTest() {
+            if (timerInterval) clearInterval(timerInterval);
             
-            // Подсчитываем результаты
-            const results = calculateResults();
-            
-            // Сохраняем результаты
-            saveResults(results);
-            
-            // Перенаправляем на страницу результатов
-            window.location.href = `test-result.html?score=${results.percentage}&correct=${results.correctAnswers}&total=${results.totalQuestions}&student=${encodeURIComponent(currentTest.studentName || 'Студент')}`;
-        }
-
-        function calculateResults() {
-            let correctAnswers = 0;
-            let totalPoints = 0;
+            let correctCount = 0;
             let earnedPoints = 0;
+            let totalPoints = 0;
             
-            currentTest.questions.forEach((question, index) => {
-                totalPoints += question.points || 1;
-                
-                if (question.type !== 'text' && question.answers) {
-                    const userAnswer = userAnswers[index];
-                    
-                    if (question.type === 'single') {
-                        // Для одиночного выбора
-                        const correctAnswerIndex = question.answers.findIndex(a => a.isCorrect);
-                        if (userAnswer === correctAnswerIndex) {
-                            correctAnswers++;
-                            earnedPoints += question.points || 1;
-                        }
-                    } else if (question.type === 'multiple') {
-                        // Для множественного выбора
-                        const correctAnswers = question.answers.map((a, i) => a.isCorrect ? i : -1).filter(i => i !== -1);
-                        const userAnswers = Array.isArray(userAnswer) ? userAnswer : [];
-                        
-                        // Проверяем, что все правильные ответы выбраны и нет лишних
-                        const isCorrect = correctAnswers.length === userAnswers.length && 
-                                        correctAnswers.every(a => userAnswers.includes(a));
-                        
-                        if (isCorrect) {
-                            correctAnswers++;
-                            earnedPoints += question.points || 1;
-                        }
+            currentTest.questions.forEach((q, idx) => {
+                totalPoints += q.points || 1;
+                const userAnswer = userAnswers[idx];
+                if (q.type !== 'text' && q.answers) {
+                    const correctIndex = q.answers.findIndex(a => a.isCorrect);
+                    if (userAnswer === correctIndex) {
+                        correctCount++;
+                        earnedPoints += q.points || 1;
                     }
                 }
             });
             
             const percentage = totalPoints > 0 ? Math.round((earnedPoints / totalPoints) * 100) : 0;
             
-            return {
-                totalQuestions: currentTest.questions.length,
-                correctAnswers: correctAnswers,
-                totalPoints: totalPoints,
-                earnedPoints: earnedPoints,
-                percentage: percentage
-            };
-        }
-
-        function saveResults(results) {
-            const testResult = {
+            const result = {
                 id: Date.now().toString(),
                 testId: currentTest.testId,
                 testTitle: currentTest.testTitle,
@@ -717,67 +329,41 @@
                 studentEmail: currentTest.studentEmail,
                 startTime: currentTest.startTime,
                 endTime: new Date().toISOString(),
-                questions: currentTest.questions,
-                userAnswers: userAnswers,
-                results: results,
+                results: {
+                    totalQuestions: currentTest.questions.length,
+                    correctAnswers: correctCount,
+                    totalPoints: totalPoints,
+                    earnedPoints: earnedPoints,
+                    percentage: percentage
+                },
                 status: 'completed'
             };
             
-            // Сохраняем в историю результатов
-            const results_history = JSON.parse(localStorage.getItem('test_results') || '[]');
-            results_history.push(testResult);
-            localStorage.setItem('test_results', JSON.stringify(results_history));
+            const allResults = JSON.parse(localStorage.getItem('test_results') || '[]');
+            allResults.push(result);
+            localStorage.setItem('test_results', JSON.stringify(allResults));
             
-            // Обновляем статистику теста
-            if (currentTest.testId && currentTest.testId !== 'demo') {
-                const tests = JSON.parse(localStorage.getItem('teacher_tests') || '[]');
-                const testIndex = tests.findIndex(t => t.id === currentTest.testId);
-                
-                if (testIndex !== -1) {
-                    tests[testIndex].stats = tests[testIndex].stats || { attempts: 0, averageScore: 0 };
-                    tests[testIndex].stats.attempts = (tests[testIndex].stats.attempts || 0) + 1;
-                    
-                    // Обновляем средний балл
-                    const oldAvg = tests[testIndex].stats.averageScore || 0;
-                    const attempts = tests[testIndex].stats.attempts;
-                    tests[testIndex].stats.averageScore = Math.round(((oldAvg * (attempts - 1)) + results.percentage) / attempts);
-                    
-                    localStorage.setItem('teacher_tests', JSON.stringify(tests));
-                }
-            }
+            window.location.href = `test-result.html?score=${percentage}&correct=${correctCount}&total=${currentTest.questions.length}&student=${encodeURIComponent(currentTest.studentName)}`;
         }
-
+        
         function startTimer() {
-            timerInterval = setInterval(function() {
+            timerInterval = setInterval(() => {
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    alert('Время вышло! Тест будет автоматически завершен.');
-                    confirmFinishTest();
+                    alert('Время вышло!');
+                    finishTest();
                     return;
                 }
-                
                 timeLeft--;
-                
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
-                document.getElementById('timeDisplay').textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Предупреждение за 5 минут
-                if (timeLeft === 300) {
-                    document.getElementById('timer').classList.add('warning');
-                    alert('Осталось 5 минут!');
-                }
-                
+                document.getElementById('timeDisplay').textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
             }, 1000);
         }
-
-        // Закрытие модального окна по клику вне его
-        window.onclick = function(event) {
-            const modal = document.getElementById('finishModal');
-            if (event.target === modal) {
-                closeFinishModal();
-            }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
         }
     </script>
 </body>
