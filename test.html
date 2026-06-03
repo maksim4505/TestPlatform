@@ -502,8 +502,9 @@
             const statusText = test.status === 'published' ? 'Опубликован' : 'Черновик';
             const statusClass = test.status === 'published' ? 'published' : '';
             
+            // ИСПРАВЛЕНО: добавлен /TestPlatform/ в путь
             const baseUrl = window.location.origin;
-            const testLink = `${baseUrl}/take-test.html?id=${test.id}`;
+            const testLink = `${baseUrl}/TestPlatform/take-test.html?id=${test.id}`;
             
             let qrGenerated = false;
             
