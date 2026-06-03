@@ -605,7 +605,7 @@
             }
         }
 
-        // ОСНОВНАЯ ФУНКЦИЯ СОЗДАНИЯ ТЕСТА (СО СТАТУСОМ "published")
+        // ===== ОСНОВНАЯ ФУНКЦИЯ СОЗДАНИЯ ТЕСТА (С СОХРАНЕНИЕМ В ОБЩИЙ ДОСТУП) =====
         function createTest() {
             const testTitle = document.getElementById('testTitle').value.trim();
             if (!testTitle) {
@@ -659,14 +659,14 @@
                 questions.push(question);
             }
 
-            // СОЗДАЁМ ТЕСТ СО СТАТУСОМ "published" (ОПУБЛИКОВАН)
+            // СОЗДАЁМ ТЕСТ
             const test = {
                 id: Date.now().toString(),
                 title: testTitle,
                 description: document.getElementById('testDescription').value.trim(),
                 timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
                 questions: questions,
-                status: 'published',  // ← ИСПРАВЛЕНО: тесты сразу публикуются
+                status: 'published',
                 createdAt: new Date().toISOString(),
                 stats: {
                     attempts: 0,
@@ -675,18 +675,20 @@
                 }
             };
 
-            // Сохраняем в общий массив (для студентов)
+            // ===== ВАЖНО: СОХРАНЯЕМ В ОБЩИЙ МАССИВ (ДЛЯ СТУДЕНТОВ) =====
             const allTestsKey = 'teacher_tests';
             let allTests = JSON.parse(localStorage.getItem(allTestsKey) || '[]');
             allTests.push(test);
             localStorage.setItem(allTestsKey, JSON.stringify(allTests));
+            console.log('✅ Тест сохранён в общее хранилище:', allTestsKey, test.id);
 
-            // Сохраняем в личный массив преподавателя (для редактирования)
+            // ===== СОХРАНЯЕМ В ЛИЧНЫЙ МАССИВ ПРЕПОДАВАТЕЛЯ =====
             if (currentUser) {
                 const userTestsKey = `teacher_tests_${currentUser.id}`;
                 let userTests = JSON.parse(localStorage.getItem(userTestsKey) || '[]');
                 userTests.push(test);
                 localStorage.setItem(userTestsKey, JSON.stringify(userTests));
+                console.log('✅ Тест сохранён в личное хранилище:', userTestsKey);
             }
 
             alert(`✅ Тест "${testTitle}" успешно создан и ОПУБЛИКОВАН! Теперь студенты могут его пройти по ссылке.`);
@@ -801,7 +803,7 @@
                     timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
                     questions: questions,
                     updatedAt: new Date().toISOString(),
-                    status: 'published', // При редактировании тоже оставляем опубликованным
+                    status: 'published',
                     stats: {
                         ...tests[testIndex].stats,
                         maxPoints: questions.reduce((sum, q) => sum + q.points, 0)
