@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление тестом - TestPlatform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: #2d3e50;
+        }
+
+        .logo span {
+            color: #4a6ee0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #4a6ee0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .back-link {
+            color: #4a6ee0;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-link:hover {
+            color: #3a5bc7;
+        }
+
+        .test-management {
+            padding: 40px 0;
+        }
+
+        .test-header {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .test-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .test-title {
+            font-size: 32px;
+            color: #2d3e50;
+            font-weight: 600;
+        }
+
+        .test-status {
+            background-color: #ffd700;
+            color: #856404;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .test-status.published {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .test-description {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .test-meta {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .meta-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3e50;
+        }
+
+        .meta-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .test-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #4a6ee0;
+            color: white;
+            border: 2px solid #4a6ee0;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5bc7;
+        }
+
+        .btn-outline {
+            border: 2px solid #4a6ee0;
+            color: #4a6ee0;
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: #4a6ee0;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #4CAF50;
+            color: white;
+            border: 2px solid #4CAF50;
+        }
+
+        .btn-success:hover {
+            background-color: #45a049;
+        }
+
+        .test-stats {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9ff;
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2d3e50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .share-section {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .share-header {
+            margin-bottom: 25px;
+        }
+
+        .share-header h3 {
+            font-size: 24px;
+            color: #2d3e50;
+            margin-bottom: 10px;
+        }
+
+        .test-short-info {
+            background-color: #f8f9ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #4a6ee0;
+        }
+
+        .test-short-info strong {
+            font-size: 18px;
+            color: #2d3e50;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .link-container {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .link-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #f8f9fa;
+        }
+
+        .btn-copy {
+            background-color: #4a6ee0;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .qrcode-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        #qrcode {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-download {
+            background-color: #4a6ee0;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        footer {
+            background-color: #2d3e50;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li a {
+            color: #b0b7c3;
+            text-decoration: none;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #3a4a5f;
+            color: #b0b7c3;
+            font-size: 14px;
+        }
+
+        .free-badge {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .test-title-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .link-container {
+                flex-direction: column;
+            }
+            .btn-copy {
+                padding: 12px;
+            }
+            .test-actions {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Test<span>Platform</span> <span class="free-badge">БЕСПЛАТНО</span></h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">М</div>
+                    <a href="dashboard.html" class="back-link">
+                        <i class="fas fa-arrow-left"></i> Назад к тестам
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="test-management">
+        <div class="container" id="testContent">
+            <div style="text-align: center; padding: 60px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #4a6ee0;"></i>
+                <p>Загрузка теста...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TestPlatform</h3>
+                    <p>Современная платформа для онлайн-тестирования.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="dashboard.html">Панель преподавателя</a></li>
+                        <li><a href="create-test.html">Создать тест</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Помощь</h3>
+                    <ul>
+                        <li><a href="mailto:support@testplatform.ru">support@testplatform.ru</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TestPlatform. Бесплатная платформа для онлайн-тестирования.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const testId = urlParams.get('id');
+        let currentUser = null;
+        let currentTest = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            if (testId) {
+                loadTest(testId);
+            } else {
+                showError('Тест не найден');
+            }
+        });
+
+        function loadUserInfo() {
+            currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            const avatar = document.getElementById('userAvatar');
+            if (currentUser && avatar) {
+                avatar.textContent = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'М';
+            }
+        }
+
+        function getUserTestsKey() {
+            if (!currentUser) return 'teacher_tests';
+            return `teacher_tests_${currentUser.id}`;
+        }
+
+        function loadTest(id) {
+            const testsKey = getUserTestsKey();
+            const tests = JSON.parse(localStorage.getItem(testsKey) || '[]');
+            const test = tests.find(t => t.id === id);
+            
+            if (test) {
+                currentTest = test;
+                renderTest(test);
+            } else {
+                showError('Тест не найден');
+            }
+        }
+
+        function renderTest(test) {
+            const container = document.getElementById('testContent');
+            
+            const questionsCount = test.questions ? test.questions.length : 0;
+            const maxPoints = test.questions ? test.questions.reduce((sum, q) => sum + (q.points || 1), 0) : 0;
+            const timeLimit = test.timeLimit ? `${test.timeLimit} минут` : 'Без ограничения';
+            const statusText = test.status === 'published' ? 'Опубликован' : 'Черновик';
+            const statusClass = test.status === 'published' ? 'published' : '';
+            
+            const baseUrl = window.location.origin;
+            const testLink = `${baseUrl}/take-test.html?id=${test.id}`;
+            
+            let qrGenerated = false;
+            
+            container.innerHTML = `
+                <div class="test-header">
+                    <div class="test-title-row">
+                        <h1 class="test-title">${escapeHtml(test.title || 'Без названия')}</h1>
+                        <span class="test-status ${statusClass}">${statusText}</span>
+                    </div>
+                    <p class="test-description">${escapeHtml(test.description || 'Без описания')}</p>
+                    <div class="test-meta">
+                        <div class="meta-item">
+                            <span class="meta-value">${questionsCount}</span>
+                            <span class="meta-label">вопросов</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-value">${maxPoints}</span>
+                            <span class="meta-label">макс. баллов</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-value">${timeLimit}</span>
+                            <span class="meta-label">времени</span>
+                        </div>
+                    </div>
+                    <div class="test-actions">
+                        <button class="btn btn-success" id="getLinkBtn">
+                            <i class="fas fa-share-alt"></i> Поделиться
+                        </button>
+                        <button class="btn btn-primary" id="copyLinkBtn">
+                            <i class="fas fa-copy"></i> Копировать ссылку
+                        </button>
+                        <a href="create-test.html?edit=${test.id}" class="btn btn-outline" id="editTestBtn">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </a>
+                        <button class="btn btn-outline" id="deleteTestBtn">
+                            <i class="fas fa-trash"></i> Удалить
+                        </button>
+                    </div>
+                </div>
+
+                <div class="test-stats">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">${test.stats?.attempts || 0}</div>
+                            <div class="stat-label">прохождений</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${test.stats?.averageScore || 0}%</div>
+                            <div class="stat-label">средний балл</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="share-section" id="shareSection" style="display: none;">
+                    <div class="share-header">
+                        <h3><i class="fas fa-share-alt"></i> Поделиться тестом</h3>
+                        <p>Отправьте ссылку или QR-код студентам</p>
+                    </div>
+                    <div class="test-short-info">
+                        <strong>${escapeHtml(test.title || 'Без названия')}</strong>
+                        <div class="meta">${questionsCount} вопросов • ${maxPoints} баллов</div>
+                    </div>
+                    <div class="link-section">
+                        <h4>Ссылка на тест</h4>
+                        <div class="link-container">
+                            <input type="text" class="link-input" id="testLink" value="${testLink}" readonly>
+                            <button class="btn-copy" id="copyLinkBtn2"><i class="fas fa-copy"></i> Копировать</button>
+                        </div>
+                    </div>
+                    <div class="qrcode-section">
+                        <h4>QR-код для быстрого доступа</h4>
+                        <div id="qrcode"></div>
+                        <button class="btn-download" id="downloadQrBtn"><i class="fas fa-download"></i> Скачать QR-код</button>
+                    </div>
+                </div>
+            `;
+            
+            // Обработчики
+            document.getElementById('getLinkBtn')?.addEventListener('click', () => {
+                const section = document.getElementById('shareSection');
+                section.style.display = 'block';
+                section.scrollIntoView({ behavior: 'smooth' });
+                if (!qrGenerated) {
+                    generateQRCode(testLink);
+                    qrGenerated = true;
+                }
+            });
+            
+            document.getElementById('copyLinkBtn')?.addEventListener('click', () => copyLink(testLink));
+            document.getElementById('copyLinkBtn2')?.addEventListener('click', () => copyLink(testLink));
+            document.getElementById('deleteTestBtn')?.addEventListener('click', () => deleteTest(test.id));
+            document.getElementById('downloadQrBtn')?.addEventListener('click', () => downloadQRCode());
+        }
+        
+        function generateQRCode(url) {
+            const qrContainer = document.getElementById('qrcode');
+            if (!qrContainer) return;
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: url,
+                width: 200,
+                height: 200,
+                colorDark: '#2d3e50',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+        
+        function downloadQRCode() {
+            const qrContainer = document.getElementById('qrcode');
+            if (!qrContainer) return;
+            const canvas = qrContainer.querySelector('canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = `qrcode_${currentTest?.id || 'test'}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            } else {
+                alert('QR-код еще не сгенерирован');
+            }
+        }
+        
+        function copyLink(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert('✅ Ссылка скопирована!\n' + link);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = link;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✅ Ссылка скопирована!\n' + link);
+            });
+        }
+        
+        function deleteTest(id) {
+            if (!confirm('Удалить тест? Это действие нельзя отменить.')) return;
+            const testsKey = getUserTestsKey();
+            const tests = JSON.parse(localStorage.getItem(testsKey) || '[]');
+            const updated = tests.filter(t => t.id !== id);
+            localStorage.setItem(testsKey, JSON.stringify(updated));
+            alert('Тест удален');
+            window.location.href = 'dashboard.html';
+        }
+        
+        function showError(msg) {
+            document.getElementById('testContent').innerHTML = `
+                <div style="text-align:center; padding:100px; background:white; border-radius:16px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size:48px; color:#e74c3c;"></i>
+                    <h2 style="margin:20px 0">${msg}</h2>
+                    <a href="dashboard.html" class="btn btn-primary">Вернуться</a>
+                </div>
+            `;
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+    </script>
+</body>
+</html>

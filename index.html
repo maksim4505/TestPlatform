@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestPlatform - Платформа онлайн-тестирования</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: #2d3e50;
+        }
+
+        .logo span {
+            color: #4a6ee0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #4a6ee0;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-outline {
+            border: 2px solid #4a6ee0;
+            color: #4a6ee0;
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: #4a6ee0;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #4a6ee0;
+            color: white;
+            border: 2px solid #4a6ee0;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5bc7;
+            border-color: #3a5bc7;
+        }
+
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+
+        /* Герой секция */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7ff 0%, #eef1ff 100%);
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            color: #2d3e50;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Возможности */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            color: #2d3e50;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: #f8f9ff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #eef2ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon i {
+            font-size: 24px;
+            color: #4a6ee0;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            color: #2d3e50;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        /* Как это работает */
+        .how-it-works {
+            padding: 80px 0;
+            background-color: #f8f9fa;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: #4a6ee0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 auto 25px;
+        }
+
+        .step h3 {
+            font-size: 24px;
+            color: #2d3e50;
+            margin-bottom: 15px;
+        }
+
+        .step p {
+            color: #666;
+        }
+
+        /* CTA секция */
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #4a6ee0 0%, #3a5bc7 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-light {
+            background-color: white;
+            color: #4a6ee0;
+            border: 2px solid white;
+        }
+
+        .btn-light:hover {
+            background-color: #f8f9ff;
+        }
+
+        /* Футер */
+        footer {
+            background-color: #2d3e50;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #b0b7c3;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #3a4a5f;
+            color: #b0b7c3;
+            font-size: 14px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .steps-container {
+                flex-direction: column;
+            }
+            
+            .hero-buttons, .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Test<span>Platform</span></h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="#features">Возможности</a>
+                    <a href="#how-it-works">Как это работает</a>
+                    <a href="#contacts">Контакты</a>
+                </nav>
+                <div class="header-buttons">
+                    <a href="register.html" class="btn btn-primary">Войти</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Герой секция -->
+    <section class="hero">
+        <div class="container">
+            <h2>Платформа тестирования</h2>
+            <p>Современная система для создания и проведения онлайн-тестирования. Преподаватели создают тесты, студенты проходят без регистрации, результаты автоматически сохраняются в личном кабинете.</p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-primary btn-large">Начать как преподаватель</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Возможности платформы -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Возможности платформы</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Создание тестов</h3>
+                    <p>Легко создавайте тесты с множественными выбором ответов. Добавьте неограниченное количество вопросов.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>QR-коды</h3>
+                    <p>Генерируйте QR-коды для быстрого доступа к тестам. Студенты могут начать тест одним сканированием.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Без регистрации</h3>
+                    <p>Студентам не нужна регистрация. Просто имя и можно начинать тест. Минимизируйте время на проверке.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Аналитика</h3>
+                    <p>Просматривайте детальную статистику по каждому тесту. Экспортируйте результаты в CSV.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Хранение результатов</h3>
+                    <p>Все результаты тестов автоматически сохраняются и доступны в вашем личном кабинете.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Простой интерфейс</h3>
+                    <p>Интуитивный дизайн как для преподавателей, так и для студентов. Никакой сложности, только результаты.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как это работает -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Как это работает</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Создайте тест</h3>
+                    <p>Преподаватель создает тест с вопросами и правильными ответами.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Поделитесь ссылкой</h3>
+                    <p>Отправьте студентам ссылку на тест или покажите QR-код. Они смогут пройти тест с любого устройства.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Получите результаты</h3>
+                    <p>После завершения теста результаты автоматически сохраняются. Просматривайте статистику в панели преподавателя.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA секция -->
+    <section class="cta">
+        <div class="container">
+            <h2>Готовы начать тестирование?</h2>
+            <p>Создайте свой первый тест прямо сейчас и упростите процесс проверки знаний.</p>
+            <div class="cta-buttons">
+                <a href="register.html" class="btn btn-light btn-large">Перейти в панель преподавателя</a>
+                <a href="#features" class="btn btn-outline btn-large" style="color: white; border-color: white;">Узнать больше</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TestPlatform</h3>
+                    <p>Современная платформа для онлайн-тестирования, которая экономит время преподавателей и студентов.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#features">Возможности</a></li>
+                        <li><a href="#how-it-works">Как это работает</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="mailto:support@testplatform.ru">support@testplatform.ru</a></li>
+                        <li><a href="tel:+78001234567">8 (800) 123-45-67</a></li>
+                        <li>Москва, ул. Тестовая, 15</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TestPlatform. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Анимация карточек
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.feature-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Проверка авторизации
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            const loginBtn = document.querySelector('.header-buttons .btn-primary');
+            
+            if (currentUser) {
+                const user = JSON.parse(currentUser);
+                loginBtn.textContent = `Панель (${user.name.split(' ')[0]})`;
+                loginBtn.href = 'dashboard.html';
+            } else {
+                loginBtn.textContent = 'Войти';
+                loginBtn.href = 'register.html';
+            }
+        });
+    </script>
+</body>
+</html>
