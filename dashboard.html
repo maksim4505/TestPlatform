@@ -917,10 +917,11 @@
             container.innerHTML = html;
         }
 
-        // Копирование ссылки
+        // ИСПРАВЛЕННАЯ функция копирования ссылки (с /TestPlatform/)
         function copyTestLink(testId) {
             const baseUrl = window.location.origin;
-            const testLink = `${baseUrl}/take-test.html?id=${testId}`;
+            // ВАЖНО: добавляем /TestPlatform/ в путь
+            const testLink = `${baseUrl}/TestPlatform/take-test.html?id=${testId}`;
             navigator.clipboard.writeText(testLink).then(() => {
                 alert('✅ Ссылка на тест скопирована!\n\n' + testLink);
             }).catch(() => {
